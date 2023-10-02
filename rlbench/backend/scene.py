@@ -18,6 +18,7 @@ from rlbench.backend.utils import rgb_handles_to_mask
 from rlbench.demo import Demo
 from rlbench.noise_model import NoiseModel
 from rlbench.observation_config import ObservationConfig, CameraConfig
+from rlbench.backend.waypoints import Point
 
 STEPS_BEFORE_EPISODE_START = 10
 
@@ -356,6 +357,16 @@ class Scene(object):
                     raise DemoError(
                         'Could not get a path for waypoint %d.' % i,
                         self.task) from e
+
+                if i == len(waypoints) - 1:
+                    _path = path._path_points.reshape(-1, 7)
+                    last = _path[-1]
+                    target = Dummy.create()
+                    target.set_pose(last)
+                    waypoint = Dummy(target._handle)
+                    point = Point(waypoint, self.robot)
+                    path = point.get_path()
+
                 ext = point.get_ext()
                 path.visualize()
 
