@@ -358,11 +358,18 @@ class Scene(object):
                         'Could not get a path for waypoint %d.' % i,
                         self.task) from e
 
+
                 if i == len(waypoints) - 1:
-                    _path = path._path_points.reshape(-1, 7)
-                    last = _path[-1]
+                    path.set_to_end()
+                    objects = self.robot.gripper.get_objects_in_tree()
+                    for o in objects:
+                        if "Panda_tip" in o.get_name():
+                            end_pose = o.get_pose()
+                            break
+
+                    path.set_to_start()
                     target = Dummy.create()
-                    target.set_pose(last)
+                    target.set_pose(end_pose)
                     waypoint = Dummy(target._handle)
                     point = Point(waypoint, self.robot)
                     path = point.get_path()
