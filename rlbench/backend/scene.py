@@ -18,7 +18,7 @@ from rlbench.backend.utils import rgb_handles_to_mask
 from rlbench.demo import Demo
 from rlbench.noise_model import NoiseModel
 from rlbench.observation_config import ObservationConfig, CameraConfig
-from rlbench.backend.waypoints import Point
+from rlbench.backend.waypoints import Point, PredefinedPath
 
 STEPS_BEFORE_EPISODE_START = 10
 
@@ -359,7 +359,7 @@ class Scene(object):
                         self.task) from e
 
 
-                if i == len(waypoints) - 1:
+                if i == len(waypoints) - 1 and isinstance(point, PredefinedPath):
                     path.set_to_end()
                     objects = self.robot.gripper.get_objects_in_tree()
                     for o in objects:
