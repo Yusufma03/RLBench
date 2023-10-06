@@ -9,7 +9,7 @@ class OpenBox(Task):
 
     def init_task(self):
         self.register_success_conditions([
-            JointCondition(Joint('box_joint'), np.pi / 2)])
+            JointCondition(Joint('box_joint'), np.deg2rad(70))])
 
     def init_episode(self, index: int) -> List[str]:
         return ['open box',

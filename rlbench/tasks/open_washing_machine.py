@@ -14,7 +14,7 @@ class OpenWashingMachine(Task):
     def init_task(self) -> None:
         self.joint = Joint('door_joint')
         self.register_success_conditions([
-            JointCondition(self.joint, np.deg2rad(40))
+            JointCondition(self.joint, np.deg2rad(30))
         ])
 
     def init_episode(self, index: int) -> List[str]:

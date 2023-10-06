@@ -11,7 +11,7 @@ class OpenGrill(Task):
 
     def init_task(self) -> None:
         self.register_success_conditions([
-            JointCondition(Joint('lid_joint'), np.deg2rad(50))])
+            JointCondition(Joint('lid_joint'), np.deg2rad(40))])
 
     def init_episode(self, index: int) -> List[str]:
         return ['open the grill',
