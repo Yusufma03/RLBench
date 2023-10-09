@@ -545,4 +545,5 @@ class Scene(object):
             # Store the actual requested joint positions during demo collection
             misc.update({"executed_demo_joint_position_action": self._execute_demo_joint_position_action})
             self._execute_demo_joint_position_action = None
+        misc.update({"variation_index": self._variation_index})
         return misc
