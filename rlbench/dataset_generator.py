@@ -250,6 +250,9 @@ def run(i, lock, task_index, variation_count, results, file_lock, tasks, args):
                   '// Variation:', my_variation_count, '// Demo:', ex_idx)
             attempts = 10
             while attempts > 0:
+                episode_path = os.path.join(episodes_path, EPISODE_FOLDER % ex_idx)
+                if os.path.exists(episode_path):
+                    break
                 try:
                     # TODO: for now we do the explicit looping.
                     demo, = task_env.get_demos(
@@ -269,7 +272,6 @@ def run(i, lock, task_index, variation_count, results, file_lock, tasks, args):
                     tasks_with_problems += problem
                     abort_variation = True
                     break
-                episode_path = os.path.join(episodes_path, EPISODE_FOLDER % ex_idx)
                 with file_lock:
                     save_demo(demo, episode_path)
                 break
