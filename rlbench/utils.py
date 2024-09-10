@@ -53,6 +53,10 @@ def get_stored_demos(amount: int, image_paths: bool, dataset_root: str,
     examples_path = join(
         task_root, VARIATIONS_FOLDER % variation_number,
         EPISODES_FOLDER)
+    variation_path = join(
+        task_root, VARIATIONS_FOLDER % variation_number,
+        "variation_descriptions.pkl"
+    )
     examples = listdir(examples_path)
     if amount == -1:
         amount = len(examples)
@@ -65,6 +69,9 @@ def get_stored_demos(amount: int, image_paths: bool, dataset_root: str,
     else:
         selected_examples = natsorted(
             examples)[from_episode_number:from_episode_number+amount]
+    
+    with open(variation_path, "rb") as fin:
+        descriptions = pickle.load(fin)
 
     # Process these examples (e.g. loading observations)
     demos = []
@@ -100,6 +107,8 @@ def get_stored_demos(amount: int, image_paths: bool, dataset_root: str,
             raise RuntimeError('Broken dataset assumption')
 
         for i in range(num_steps):
+            obs[i].misc['descriptions'] = descriptions
+
             si = IMAGE_FORMAT % i
             if obs_config.left_shoulder_camera.rgb:
                 obs[i].left_shoulder_rgb = join(l_sh_rgb_f, si)
